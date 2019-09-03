@@ -1,0 +1,26 @@
+{
+  "name": "generator-meecrowave-mpservice",
+  "version": "1.0.0",
+  "description": "meecrowave microprofile.io microservice yeoman generator",
+  "main": "index.js",
+  "author": "Demis Gallisto",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "generator",
+    "meecrowave",
+    "java",
+    "microprofile"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diuis/generator-meecrowave-mpservice"
+  }
+}
