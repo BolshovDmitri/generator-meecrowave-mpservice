@@ -115,6 +115,11 @@ module.exports = class extends Generator {
       this.destinationPath(".mvn/jvm.config"),
       {}
     );
+    this.fs.copyTpl(
+      this.templatePath("maven/version-number-rules.xml"),
+      this.destinationPath(this.answers.name + "-multi-module/" + "version-number-rules.xml"),
+      {}
+    );
   }
 
   pathBe() {
