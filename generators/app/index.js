@@ -135,7 +135,7 @@ module.exports = class extends Generator {
   }
 
   pathPackageAdapter() {
-    return this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/adapter"
+    return this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be"
   }
 
   pathDomain() {
@@ -206,7 +206,12 @@ module.exports = class extends Generator {
   javaAdapter() {
     this.fs.copyTpl(
       this.templatePath("gitkeep"),
-      this.destinationPath(this.pathAdapter() + "/src/test/java/" + this.pathPackageBe() + "/" + ".gitkeep"),
+      this.destinationPath(this.pathAdapter() + "/src/test/java/" + this.pathPackageAdapter() + "/adapter/" + ".gitkeep"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("gitkeep"),
+      this.destinationPath(this.pathAdapter() + "/src/test/java/" + this.pathPackageAdapter() + "/api/" + ".gitkeep"),
       {}
     );
   }
@@ -223,13 +228,16 @@ module.exports = class extends Generator {
       }
     );
     this.fs.copyTpl(
-      this.templatePath("gitkeep"),
-      this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/model/" + ".gitkeep"),
-      {}
+      this.templatePath("java/domain/RepositoryException"),
+      this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/repository/" + "RepositoryException.java"),
+      {
+        packageDomain: this.answers.packageDomain,
+        packageModule: this.answers.name.split("-").join(".").toLowerCase() + ".be"
+      }
     );
     this.fs.copyTpl(
       this.templatePath("gitkeep"),
-      this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/repository/" + ".gitkeep"),
+      this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/model/" + ".gitkeep"),
       {}
     );
     this.fs.copyTpl(
