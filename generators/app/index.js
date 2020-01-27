@@ -63,7 +63,8 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath("docker-compose.yml"),
       this.destinationPath("docker-compose.yml"),
-      { namespace: this.answers.namespace, 
+      {
+        namespace: this.answers.namespace,
         name: this.answers.name.split(" ").join("-").toLowerCase() + "-be",
         package: this.answers.packageDomain
       }
@@ -86,7 +87,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath("dependabot/config.yml"),
       this.destinationPath(".dependabot/config.yml"),
-      { gitAuth: this.answers.gitAuth}
+      { gitAuth: this.answers.gitAuth }
     );
     this.fs.copyTpl(
       this.templatePath("maven/jvm.config"),
@@ -95,41 +96,43 @@ module.exports = class extends Generator {
     );
     this.fs.copyTpl(
       this.templatePath("java/be/Application"),
-      this.destinationPath(this.answers.name +  "-be" + "/src/main/java/" + this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be/meecrowave/" + "Application.java"),
-      { packageDomain: this.answers.packageDomain, 
+      this.destinationPath(this.answers.name + "-multi-module/" + this.answers.name + "-be" + "/src/main/java/" + this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be/meecrowave/" + "Application.java"),
+      {
+        packageDomain: this.answers.packageDomain,
         packageModule: this.answers.name.split("-").join(".").toLowerCase() + ".be"
       }
     );
     this.fs.copyTpl(
       this.templatePath("java/be/Api"),
-      this.destinationPath(this.answers.name +  "-be" + "/src/main/java/" + this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be/meecrowave/" + "Api.java"),
-      { packageDomain: this.answers.packageDomain, 
+      this.destinationPath(this.answers.name + "-multi-module/" + this.answers.name + "-be" + "/src/main/java/" + this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be/meecrowave/" + "Api.java"),
+      {
+        packageDomain: this.answers.packageDomain,
         packageModule: this.answers.name.split("-").join(".").toLowerCase() + ".be"
       }
     );
     this.fs.copyTpl(
-      this.templatePath("java/meta-inf/microprofile-config.properties"),
-      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/META-INF/microprofile-config.properties"),
+      this.templatePath("java/be/meta-inf/microprofile-config.properties"),
+      this.destinationPath(this.answers.name + "-multi-module/" + this.answers.name + "-be" + "/src/main/resources/META-INF/microprofile-config.properties"),
       {}
     );
     this.fs.copyTpl(
-      this.templatePath("java/meecrowave/meecrowave.properties"),
-      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/meecrowave.properties"),
+      this.templatePath("java/be/meecrowave/meecrowave.properties"),
+      this.destinationPath(this.answers.name + "-multi-module/" + this.answers.name + "-be" + "/src/main/resources/meecrowave.properties"),
       {}
     );
     this.fs.copyTpl(
-      this.templatePath("java/log4j2/log4j2-dev.xml"),
-      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/log4j2-dev.xml"),
+      this.templatePath("java/be/log4j2/log4j2-dev.xml"),
+      this.destinationPath(this.answers.name + "-multi-module/" + this.answers.name + "-be" + "/src/main/resources/log4j2-dev.xml"),
       {}
     );
     this.fs.copyTpl(
-      this.templatePath("java/log4j2/log4j2.xml"),
-      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/log4j2.xml"),
+      this.templatePath("java/be/log4j2/log4j2.xml"),
+      this.destinationPath(this.answers.name + "-multi-module/" + this.answers.name + "-be" + "/src/main/resources/log4j2.xml"),
       {}
     );
     this.fs.copyTpl(
-      this.templatePath("java/log4j2/empty-log.txt"),
-      this.destinationPath(this.answers.name +  "-be" + "/logs/app.log"),
+      this.templatePath("java/be/log4j2/empty-log.txt"),
+      this.destinationPath(this.answers.name + "-multi-module/" + this.answers.name + "-be" + "/logs/app.log"),
       {}
     );
   }
