@@ -114,6 +114,17 @@ module.exports = class extends Generator {
       this.destinationPath(this.answers.name + "-multi-module/" + "version-number-rules.xml"),
       {}
     );
+    this.fs.copyTpl(
+      this.templatePath("java/pom.xml"),
+      this.destinationPath(this.answers.name + "-multi-module" + "/" + "pom.xml"),
+      {
+        mavenArtifactId: this.answers.name + "-multi-module",
+        mavenGroupId: this.answers.packageDomain,
+        mavenModulePrefix: this.answers.name.toLowerCase() + "-be",
+        mavenName: this.answers.name.split("-").join(" ").toLowerCase() + " multi module",
+        logConfigClass: this.answers.packageDomain + "." + this.answers.name.split("-").join(".").toLowerCase() + ".be" + ".adapter.log.LogConfig"
+      }
+    );
   }
 
   pathBe() {

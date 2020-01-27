@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId><%= mavenGroupId %></groupId>
+  <artifactId><%= mavenArtifactId %></artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <packaging>pom</packaging>
+
+  <name>:: <%= mavenName %> ::</name>
+
+  <modules>
+    <module><%= mavenModulePrefix %>-swagger</module>
+    <module><%= mavenModulePrefix %>-domain</module>
+    <module><%= mavenModulePrefix %>-adapter</module>
+    <module><%= mavenModulePrefix %></module>
+  </modules>
+
+  <properties>
+
+    <docker.image.java>registry.hub.docker.com/adoptopenjdk/openjdk13:jre-13_33-alpine</docker.image.java>
+
+    <maven.compiler.source>13</maven.compiler.source>
+    <maven.compiler.target>13</maven.compiler.target>
+    <maven.compiler.release>13</maven.compiler.release>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven.version.required>3.6.2</maven.version.required>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.resource.encoding>UTF-8</project.resource.encoding>
+
+    <version.junit.engine>5.4.2</version.junit.engine>
+    <version.junit.platform>1.4.2</version.junit.platform>
+
+    <version.plugin.clean>3.1.0</version.plugin.clean>
+    <version.plugin.compiler>3.8.1</version.plugin.compiler>
+    <version.plugin.dependency>3.1.1</version.plugin.dependency>
+    <version.plugin.deploy>2.8.2</version.plugin.deploy>
+    <version.plugin.enforcer>3.0.0-M2</version.plugin.enforcer>
+    <version.plugin.failsafe>2.22.2</version.plugin.failsafe>
+    <version.plugin.install>2.5.2</version.plugin.install>
+    <version.plugin.jar>3.1.2</version.plugin.jar>
+    <version.plugin.jdeps>3.1.2</version.plugin.jdeps>
+    <version.plugin.plexus>2.6.0</version.plugin.plexus>
+    <version.plugin.release>2.5.3</version.plugin.release>
+    <version.plugin.resources>3.1.0</version.plugin.resources>
+    <version.plugin.site>3.7.1</version.plugin.site>
+    <version.plugin.source>3.1.0</version.plugin.source>
+    <version.plugin.surefire>2.22.2</version.plugin.surefire>
+    <version.plugin.versions>2.7</version.plugin.versions>
+    <version.plugin.war>3.2.3</version.plugin.war>
+
+    <version.plugin.jib>1.6.1</version.plugin.jib>
+
+    <testServerHttpPort>9080</testServerHttpPort>
+    <testServerHttpsPort>9443</testServerHttpsPort>
+
+    <version.meecrowave>1.2.9</version.meecrowave>
+
+    <version.javax.activation-api>1.2.0</version.javax.activation-api>
+    <version.javax.activation>1.1.1</version.javax.activation>
+    <version.javax.jaxb-api>2.3.1</version.javax.jaxb-api>
+    <version.javax.jaxb>2.3.2</version.javax.jaxb>
+
+    <version.swagger-ui>3.24.0</version.swagger-ui>
+
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <defaultGoal>clean compile</defaultGoal>
+
+    <pluginManagement>
+
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${version.plugin.enforcer}</version>
+          <executions>
+            <execution>
+              <id>enforce-maven</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireJavaVersion>
+                    <version>${maven.compiler.source}</version>
+                  </requireJavaVersion>
+                  <requireMavenVersion>
+                    <version>${maven.version.required}</version>
+                  </requireMavenVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${version.plugin.compiler}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${version.plugin.jar}</version>
+          <configuration>
+            <archive>
+              <compress>true</compress>
+              <manifest>
+                <addClasspath>false</addClasspath>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+              <manifestEntries>
+                <release-build>${buildNumber}</release-build>
+                <release-version>${project.version}</release-version>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${version.plugin.war}</version>
+          <configuration>
+            <archiveClasses>true</archiveClasses>
+            <archive>
+              <manifest>
+                <addClasspath>false</addClasspath>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+            </archive>
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+            <packagingExcludes>pom.xml</packagingExcludes>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${version.plugin.source}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>package</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${version.plugin.clean}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${version.plugin.dependency}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${version.plugin.deploy}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${version.plugin.release}</version>
+          <configuration>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${version.plugin.resources}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${version.plugin.site}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${version.plugin.install}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jdeps-plugin</artifactId>
+          <version>${version.plugin.jdeps}</version>
+          <configuration>
+            <verbose>true</verbose>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.plexus</groupId>
+          <artifactId>plexus-classworlds</artifactId>
+          <version>${version.plugin.plexus}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>${version.plugin.versions}</version>
+          <inherited>false</inherited>
+          <configuration>
+            <rulesUri>file:version-number-rules.xml</rulesUri>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${version.plugin.surefire}</version>
+          <configuration>
+            <trimStackTrace>false</trimStackTrace>
+            <systemPropertyVariables>
+              <java.util.logging.config.class><%= logConfigClass %></java.util.logging.config.class>
+              <org.slf4j.simpleLogger.defaultLogLevel>INFO</org.slf4j.simpleLogger.defaultLogLevel>
+              <org.slf4j.simpleLogger.showDateTime>true</org.slf4j.simpleLogger.showDateTime>
+              <org.slf4j.simpleLogger.showThreadName>false</org.slf4j.simpleLogger.showThreadName>
+              <org.slf4j.simpleLogger.dateTimeFormat>HH:mm:ss</org.slf4j.simpleLogger.dateTimeFormat>
+              <org.slf4j.simpleLogger.levelInBrackets>true</org.slf4j.simpleLogger.levelInBrackets>
+              <org.slf4j.simpleLogger.showLogName>false</org.slf4j.simpleLogger.showLogName>
+            </systemPropertyVariables>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${version.plugin.failsafe}</version>
+          <executions>
+            <execution>
+              <id>integration-test</id>
+              <goals>
+                <goal>integration-test</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>verify</id>
+              <goals>
+                <goal>verify</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <trimStackTrace>false</trimStackTrace>
+            <systemPropertyVariables>
+              <java.util.logging.config.class><%= logConfigClass %></java.util.logging.config.class>
+              <org.slf4j.simpleLogger.defaultLogLevel>INFO</org.slf4j.simpleLogger.defaultLogLevel>
+              <org.slf4j.simpleLogger.showDateTime>true</org.slf4j.simpleLogger.showDateTime>
+              <org.slf4j.simpleLogger.showThreadName>false</org.slf4j.simpleLogger.showThreadName>
+              <org.slf4j.simpleLogger.dateTimeFormat>HH:mm:ss</org.slf4j.simpleLogger.dateTimeFormat>
+              <org.slf4j.simpleLogger.levelInBrackets>true</org.slf4j.simpleLogger.levelInBrackets>
+              <org.slf4j.simpleLogger.showLogName>false</org.slf4j.simpleLogger.showLogName>
+            </systemPropertyVariables>
+            <forkedProcessExitTimeoutInSeconds>500</forkedProcessExitTimeoutInSeconds>
+            <includes>
+              <include>**/*IT.java</include>
+            </includes>
+            <excludes>
+              <exclude>**/*$*</exclude>
+              <exclude>**/*Test.java</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>com.google.cloud.tools</groupId>
+          <artifactId>jib-maven-plugin</artifactId>
+          <version>${version.plugin.jib}</version>
+          <configuration>
+            <from>
+              <image>${docker.image.java}</image>
+            </from>
+            <container>
+              <format>Docker</format>
+            </container>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.meecrowave</groupId>
+          <artifactId>meecrowave-maven-plugin</artifactId>
+          <version>${version.meecrowave}</version>
+          <configuration>
+            <http2>true</http2>
+            <jsonbPrettify>true</jsonbPrettify>
+            <jsonpPrettify>true</jsonpPrettify>
+            <jaxwsSupportIfAvailable>false</jaxwsSupportIfAvailable>
+            <watcherBouncing>10</watcherBouncing>
+            <tomcatScanning>true</tomcatScanning>
+            <httpPort>9998</httpPort>
+            <httpsPort>9999</httpsPort>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>javax.xml.bind</groupId>
+              <artifactId>jaxb-api</artifactId>
+              <version>${version.javax.jaxb-api}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.sun.xml.bind</groupId>
+              <artifactId>jaxb-impl</artifactId>
+              <version>${version.javax.jaxb}</version>
+            </dependency>
+            <dependency>
+              <groupId>javax.activation</groupId>
+              <artifactId>javax.activation-api</artifactId>
+              <version>${version.javax.activation-api}</version>
+            </dependency>
+            <dependency>
+              <groupId>javax.activation</groupId>
+              <artifactId>activation</artifactId>
+              <version>${version.javax.activation}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+
+  </build>
+
+</project>
