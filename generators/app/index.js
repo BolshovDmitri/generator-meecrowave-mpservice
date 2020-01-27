@@ -151,7 +151,7 @@ module.exports = class extends Generator {
   }
 
   pathPackageSwagger() {
-    return this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/swagger"
+    return this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be"
   }
 
   javaBe() {
