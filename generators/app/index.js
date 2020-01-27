@@ -221,6 +221,11 @@ module.exports = class extends Generator {
 
   javaSwagger() {
     this.fs.copyTpl(
+      this.templatePath("java/swagger/index.html"),
+      this.destinationPath(this.pathSwagger() + "/src/main/resources/META-INF/resources" + "/" + "index.html"),
+      {}
+    );
+    this.fs.copyTpl(
       this.templatePath("gitkeep"),
       this.destinationPath(this.pathSwagger() + "/src/test/java/" + this.pathPackageSwagger() + "/" + ".gitkeep"),
       {}
