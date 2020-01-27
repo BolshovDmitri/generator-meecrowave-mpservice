@@ -221,6 +221,16 @@ module.exports = class extends Generator {
 
   javaSwagger() {
     this.fs.copyTpl(
+      this.templatePath("java/swagger/pom.xml"),
+      this.destinationPath(this.pathSwagger() + "/" + "pom.xml"),
+      {
+        mavenParentArtifactId: this.answers.name + "-multi-module",
+        mavenParentGroupId: this.answers.packageDomain,
+        mavenArtifactId: this.answers.name.toLowerCase() + "-be-swagger",
+        mavenName: this.answers.name.split("-").join(" ").toLowerCase() + " be swagger"
+      }
+    );
+    this.fs.copyTpl(
       this.templatePath("java/swagger/index.html"),
       this.destinationPath(this.pathSwagger() + "/src/main/resources/META-INF/resources" + "/" + "index.html"),
       {}
