@@ -224,7 +224,7 @@ module.exports = class extends Generator {
 
   javaDomain() {
     this.fs.copyTpl(
-      this.templatePath("java/domain/pom.xml"),
+      this.templatePath("java/be-domain/pom.xml"),
       this.destinationPath(this.pathDomain() + "/" + "pom.xml"),
       {
         mavenParentArtifactId: this.answers.name + "-multi-module",
@@ -234,7 +234,7 @@ module.exports = class extends Generator {
       }
     );
     this.fs.copyTpl(
-      this.templatePath("java/domain/RepositoryException"),
+      this.templatePath("java/be-domain/RepositoryException"),
       this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/repository/" + "RepositoryException.java"),
       {
         packageDomain: this.answers.packageDomain,
@@ -265,7 +265,7 @@ module.exports = class extends Generator {
 
   javaSwagger() {
     this.fs.copyTpl(
-      this.templatePath("java/swagger/pom.xml"),
+      this.templatePath("java/be-swagger/pom.xml"),
       this.destinationPath(this.pathSwagger() + "/" + "pom.xml"),
       {
         mavenParentArtifactId: this.answers.name + "-multi-module",
@@ -275,7 +275,7 @@ module.exports = class extends Generator {
       }
     );
     this.fs.copyTpl(
-      this.templatePath("java/swagger/index.html"),
+      this.templatePath("java/be-swagger/index.html"),
       this.destinationPath(this.pathSwagger() + "/src/main/resources/META-INF/resources" + "/" + "index.html"),
       {}
     );
