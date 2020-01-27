@@ -56,6 +56,19 @@ module.exports = class extends Generator {
 
   templates() {
     this.fs.copyTpl(
+      this.templatePath("README.md"),
+      this.destinationPath("README.md"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("docker-compose.yml"),
+      this.destinationPath("docker-compose.yml"),
+      { namespace: this.answers.namespace, 
+        name: this.answers.name.split(" ").join("-").toLowerCase() + "-be",
+        package: this.answers.packageDomain
+      }
+    );
+    this.fs.copyTpl(
       this.templatePath("gitignore"),
       this.destinationPath(".gitignore"),
       {}
