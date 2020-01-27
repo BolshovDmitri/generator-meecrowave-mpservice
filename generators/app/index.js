@@ -211,6 +211,17 @@ module.exports = class extends Generator {
 
   javaAdapter() {
     this.fs.copyTpl(
+      this.templatePath("java/be-adapter/pom.xml"),
+      this.destinationPath(this.pathAdapter() + "/" + "pom.xml"),
+      {
+        mavenParentArtifactId: this.answers.name + "-multi-module",
+        mavenParentGroupId: this.answers.packageDomain,
+        mavenArtifactId: this.answers.name.toLowerCase() + "-be-adapter",
+        mavenName: this.answers.name.split("-").join(" ").toLowerCase() + " be adapter",
+        mavenDomainArtifactId: this.answers.name.toLowerCase() + "-be-domain",
+      }
+    );
+    this.fs.copyTpl(
       this.templatePath("gitkeep"),
       this.destinationPath(this.pathAdapter() + "/src/test/java/" + this.pathPackageAdapter() + "/adapter/" + ".gitkeep"),
       {}
