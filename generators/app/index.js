@@ -125,7 +125,7 @@ module.exports = class extends Generator {
   }
 
   pathAdapter() {
-    return this.answers.name + "-multi-module/" + this.answers.name + "-adapter"
+    return this.answers.name + "-multi-module/" + this.answers.name + "-be-adapter"
   }
 
   pathPackageAdapter() {
@@ -133,7 +133,7 @@ module.exports = class extends Generator {
   }
 
   pathDomain() {
-    return this.answers.name + "-multi-module/" + this.answers.name + "-domain"
+    return this.answers.name + "-multi-module/" + this.answers.name + "-be-domain"
   }
 
   pathPackageDomain() {
@@ -141,7 +141,7 @@ module.exports = class extends Generator {
   }
 
   pathSwagger() {
-    return this.answers.name + "-multi-module/" + this.answers.name + "-swagger"
+    return this.answers.name + "-multi-module/" + this.answers.name + "-be-swagger"
   }
 
   pathPackageSwagger() {
