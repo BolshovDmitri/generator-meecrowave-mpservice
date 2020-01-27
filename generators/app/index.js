@@ -31,12 +31,6 @@ module.exports = class extends Generator {
       },
       {
         type: "input",
-        name: "mainClass",
-        message: "main class",
-        store: true
-      },
-      {
-        type: "input",
         name: "gitAuth",
         message: "git auth for Dependabot assignee",
         store: true
@@ -155,6 +149,18 @@ module.exports = class extends Generator {
   }
 
   javaBe() {
+    this.fs.copyTpl(
+      this.templatePath("java/be/pom.xml"),
+      this.destinationPath(this.pathBe() + "/" + "pom.xml"),
+      {
+        namespace: this.answers.namespace,
+        mainClass: this.answers.packageDomain.toLowerCase() + "." + this.answers.name.split("-").join(".").toLowerCase() + ".be.meecrowave.Application",
+        mavenParentArtifactId: this.answers.name + "-multi-module",
+        mavenParentGroupId: this.answers.packageDomain,
+        mavenArtifactId: this.answers.name.toLowerCase() + "-be",
+        mavenName: this.answers.name.split("-").join(" ").toLowerCase() + " be"
+      }
+    );
     this.fs.copyTpl(
       this.templatePath("java/be/Application"),
       this.destinationPath(this.pathBe() + "/src/main/java/" + this.pathPackageBe() + "/meecrowave/" + "Application.java"),

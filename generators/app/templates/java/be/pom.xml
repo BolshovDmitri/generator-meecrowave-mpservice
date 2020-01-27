@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId><%= mavenParentArtifactId %></artifactId>
+    <groupId><%= mavenParentGroupId %></groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId><%= mavenArtifactId %></artifactId>
+
+  <name>:: <%= mavenName %> ::</name>
+
+  <properties>
+    <docker.tag>${project.version}</docker.tag>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId><%= mavenParentGroupId %></groupId>
+      <artifactId><%= mavenArtifactId %>-swagger</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId><%= mavenParentGroupId %></groupId>
+      <artifactId><%= mavenArtifactId %>-adapter</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId><%= mavenParentGroupId %></groupId>
+      <artifactId><%= mavenArtifactId %>-domain</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.microprofile.config</groupId>
+      <artifactId>microprofile-config-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.microprofile.openapi</groupId>
+      <artifactId>microprofile-openapi-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.microprofile.metrics</groupId>
+      <artifactId>microprofile-metrics-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.meecrowave</groupId>
+      <artifactId>meecrowave-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-jul</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-jcl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.lmax</groupId>
+      <artifactId>disruptor</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.geronimo.config</groupId>
+      <artifactId>geronimo-config-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo</groupId>
+      <artifactId>geronimo-openapi-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo</groupId>
+      <artifactId>geronimo-metrics</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo</groupId>
+      <artifactId>geronimo-health</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.safeguard</groupId>
+      <artifactId>safeguard-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo</groupId>
+      <artifactId>geronimo-jwt-auth</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.bval</groupId>
+      <artifactId>org.apache.bval.bundle</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <configuration>
+          <to>
+            <image><%= namespace %>/<%= mavenArtifactId %>:${docker.tag}</image>
+            <auth>
+              <username>${env.DOCKERHUB_USERNAME}</username>
+              <password>${env.DOCKERHUB_PASSWORD}</password>
+            </auth>
+          </to>
+          <container>
+            <jvmFlags>
+              <jvmFlag>-XX:+UseStringDeduplication</jvmFlag>
+              <jvmFlag>-Dgeronimo.metrics.jaxrs.activated=true</jvmFlag>
+              <jvmFlag>-Dgeronimo.metrics.jaxrs.acceptedHosts=localhost</jvmFlag>
+              <jvmFlag>-Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector</jvmFlag>
+            </jvmFlags>
+            <mainClass><%= mainClass %></mainClass>
+            <ports>
+              <port>9998</port>
+            </ports>
+          </container>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.meecrowave</groupId>
+        <artifactId>meecrowave-maven-plugin</artifactId>
+        <configuration>
+          <watcherBouncing>10</watcherBouncing>
+          <tomcatScanning>true</tomcatScanning>
+          <httpPort>9998</httpPort>
+          <httpsPort>9999</httpsPort>
+          <useClasspathDeployment>true</useClasspathDeployment>
+          <detail>true</detail>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
