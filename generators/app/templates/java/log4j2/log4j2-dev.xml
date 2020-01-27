@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="[%d{HH:mm:ss.SSS}][%highlight{%-5level}][%15.15t][%30.30logger] %msg%n" />
+    </Console>
+    <Async name="ConsoleAsync">
+      <AppenderRef ref="Console" />
+    </Async>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO">
+      <AppenderRef ref="ConsoleAsync" />
+    </Root>
+    <Logger name="org.apache.catalina.core.StandardContext" level="WARN" />
+    <Logger name="org.apache.catalina.core.StandardService" level="WARN" />
+    <Logger name="org.apache.webbeans.corespi.scanner.AbstractMetaDataDiscovery" level="ERROR" />
+    <Logger name="org.apache.meecrowave.openwebbeans.OWBTomcatWebScannerService" level="WARN" />
+  </Loggers>
+</Configuration>

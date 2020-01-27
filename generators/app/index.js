@@ -25,14 +25,26 @@ module.exports = class extends Generator {
       },
       {
         type: "input",
+        name: "packageDomain",
+        message: "packages domain",
+        store: true
+      },
+      {
+        type: "input",
         name: "mainClass",
         message: "main class",
         store: true
       },
       {
         type: "input",
+        name: "gitAuth",
+        message: "git auth for Dependabot assignee",
+        store: true
+      },
+      {
+        type: "input",
         name: "gitEmailDomain",
-        message: "git email domain for circleci build",
+        message: "git email domain for CI build",
         store: true
       },
     ]);
@@ -44,110 +56,69 @@ module.exports = class extends Generator {
 
   templates() {
     this.fs.copyTpl(
-      this.templatePath("escheckrc"),
-      this.destinationPath(".escheckrc")
-    );
-    this.fs.copyTpl(
       this.templatePath("gitignore"),
-      this.destinationPath(".gitignore")
+      this.destinationPath(".gitignore"),
+      {}
     );
     this.fs.copyTpl(
-      this.templatePath("npmignore"),
-      this.destinationPath(".npmignore")
+      this.templatePath("github/workflows/settings.xml"),
+      this.destinationPath(".github/workflows/settings.xml"),
+      {}
     );
     this.fs.copyTpl(
-      this.templatePath("circleci/config.yml"),
-      this.destinationPath(".circleci/config.yml"),
-      { gitEmailDomain: this.answers.gitEmailDomain }
+      this.templatePath("github/workflows/maven-build.yml"),
+      this.destinationPath(".github/workflows/maven-build.yml"),
+      {}
     );
     this.fs.copyTpl(
-      this.templatePath("verb.md"),
-      this.destinationPath(".verb.md")
+      this.templatePath("dependabot/config.yml"),
+      this.destinationPath(".dependabot/config.yml"),
+      { gitAuth: this.answers.gitAuth}
     );
     this.fs.copyTpl(
-      this.templatePath("rollup.config.ts"),
-      this.destinationPath("rollup.config.ts"),
-      { mainClass: this.answers.mainClass }
+      this.templatePath("maven/jvm.config"),
+      this.destinationPath(".mvn/jvm.config"),
+      {}
     );
     this.fs.copyTpl(
-      this.templatePath("tsconfig.json"),
-      this.destinationPath("tsconfig.json")
-    );
-    this.fs.copyTpl(
-      this.templatePath("tslint.json"),
-      this.destinationPath("tslint.json")
-    );
-    this.fs.copyTpl(
-      this.templatePath("jest.config.js"),
-      this.destinationPath("jest.config.js")
-    );
-    this.fs.copyTpl(
-      this.templatePath("src/Class"),
-      this.destinationPath("src/" + this.answers.mainClass + ".ts"),
-      { mainClass: this.answers.mainClass }
-    );
-  }
-
-  pkgJson() {
-    const pkgJson = {
-      name: "@" + this.answers.namespace + "/" + this.answers.name,
-      version: "1.0.0",
-      description: this.answers.name,
-      private: true,
-      author: this.answers.author,
-      license: "UNLICENSED",
-      engines: {
-        "yarn": ">=1.13.0"
-      },
-      scripts: {
-        "start": "rollup -c rollup.config.ts -w",
-        "test": "jest --coverage --coverageDirectory=build/coverage --passWithNoTests",
-        "test:watch": "jest --coverage --coverageDirectory=build/coverage --passWithNoTests --watch",
-        "doc": "typedoc --out build/docs --excludePrivate --excludeExternals --exclude **/*.test.ts --target es6 src",
-        "prebuild": "yarn lint",
-        "build": "rollup -c rollup.config.ts",
-        "postbuild": "yarn escheck ; yarn test ; yarn doc ; yarn generate:readme",
-        "build:local": "rollup -c rollup.config.ts --environment BUILD:development",
-        "link:list": "node node_modules/yarn-list-link/bin/yarn-list-link.js",
-        "escheck": "es-check -v",
-        "lint": "tslint --project ./tsconfig.json",
-        "build-commit-deploy": "yarn build ; git commit -am \"new version\" ; git push ; yarn deploy-module",
-        "deploy-module": "publish-to-git",
-        "new:major": "yarn version --no-git-tag-version --major",
-        "postnew:major": "yarn build-commit-deploy",
-        "new:minor": "yarn version --no-git-tag-version --minor",
-        "postnew:minor": "yarn build-commit-deploy",
-        "new:patch": "yarn version --no-git-tag-version --patch",
-        "postnew:patch": "yarn build-commit-deploy",
-        "generate:readme": "verb readme"
-      },
-      module: "build/" + this.answers.name + ".js",
-      types: "build/types/src/" + this.answers.mainClass + ".d.ts",
-      repository: {
-        "type": "git",
-        "url": "git@github.com:@" + this.answers.namespace + "/" + this.answers.name + ".git"
+      this.templatePath("java/be/Application"),
+      this.destinationPath(this.answers.name +  "-be" + "/src/main/java/" + this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be/meecrowave/" + "Application.java"),
+      { packageDomain: this.answers.packageDomain, 
+        packageModule: this.answers.name.split("-").join(".").toLowerCase() + ".be"
       }
-    };
-
-    this.fs.extendJSON(this.destinationPath("package.json"), pkgJson);
-  }
-
-  pkgJsonInstall() {
-    this.yarnInstall(["@log4js2/core"]);
-  }
-
-  pkgJsonInstallDev() {
-    this.yarnInstall(["rollup", "rollup-plugin-filesize", "rollup-plugin-json", "rollup-plugin-replace", "rollup-plugin-typescript2"], { "dev": true });
-    this.yarnInstall(["@types/jest", "jest", "jest-extended", "ts-jest"], { "dev": true });
-    this.yarnInstall(["tslint", "typescript"], { "dev": true });
-    this.yarnInstall(["es-check"], { "dev": true });
-    this.yarnInstall(["typedoc"], { "dev": true });
-    this.yarnInstall(["verb@verbose/verb#dev", "verb-generate-readme"], { "dev": true });
-    this.yarnInstall(["yarn-list-link"], { "dev": true });
-    this.yarnInstall(["publish-to-git"], { "dev": true });
-  }
-
-  pkgJsonInstallPeer() {
+    );
+    this.fs.copyTpl(
+      this.templatePath("java/be/Api"),
+      this.destinationPath(this.answers.name +  "-be" + "/src/main/java/" + this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be/meecrowave/" + "Api.java"),
+      { packageDomain: this.answers.packageDomain, 
+        packageModule: this.answers.name.split("-").join(".").toLowerCase() + ".be"
+      }
+    );
+    this.fs.copyTpl(
+      this.templatePath("java/meta-inf/microprofile-config.properties"),
+      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/META-INF/microprofile-config.properties"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("java/meecrowave/meecrowave.properties"),
+      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/meecrowave.properties"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("java/log4j2/log4j2-dev.xml"),
+      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/log4j2-dev.xml"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("java/log4j2/log4j2.xml"),
+      this.destinationPath(this.answers.name +  "-be" + "/src/main/resources/log4j2.xml"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("java/log4j2/empty-log.txt"),
+      this.destinationPath(this.answers.name +  "-be" + "/logs/app.log"),
+      {}
+    );
   }
 
 };

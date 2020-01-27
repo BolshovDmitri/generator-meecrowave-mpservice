@@ -1,0 +1,10 @@
+version: '3'
+services:
+  @<%= name %>:
+    image: "@<%= namespace %>/@<%= name %>:0.0.1-SNAPSHOT"
+    container_name: @<%= namespace %>
+    ports:
+      - 9998:9998
+    environment:
+      - application_packages=@<%= package %>
+      - service_name=@<%= namespace %>

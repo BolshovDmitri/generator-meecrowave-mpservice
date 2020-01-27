@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+  <Appenders>
+    <RollingFile name="File" fileName="logs/app.log" filePattern="logs/app-%i.log">
+      <PatternLayout pattern="[%d{HH:mm:ss.SSS}][%highlight{%-5level}][%15.15t][%30.30logger] %msg%n" />
+      <Policies>
+        <SizeBasedTriggeringPolicy size="100 MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="3" compressionLevel="0" />
+    </RollingFile>
+    <Async name="FileAsync">
+      <AppenderRef ref="File" />
+    </Async>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO">
+      <AppenderRef ref="FileAsync" />
+    </Root>
+    <Logger name="org.apache.catalina.core.StandardContext" level="WARN" />
+    <Logger name="org.apache.catalina.core.StandardService" level="WARN" />
+    <Logger name="org.apache.webbeans.corespi.scanner.AbstractMetaDataDiscovery" level="ERROR" />
+    <Logger name="org.apache.meecrowave.openwebbeans.OWBTomcatWebScannerService" level="WARN" />
+  </Loggers>
+</Configuration>
