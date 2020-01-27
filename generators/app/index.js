@@ -143,7 +143,7 @@ module.exports = class extends Generator {
   }
 
   pathPackageDomain() {
-    return this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/domain"
+    return this.answers.packageDomain.split(".").join("/").toLowerCase() + "/" + this.answers.name.split("-").join("/").toLowerCase() + "/be"
   }
 
   pathSwagger() {
@@ -213,8 +213,38 @@ module.exports = class extends Generator {
 
   javaDomain() {
     this.fs.copyTpl(
+      this.templatePath("java/domain/pom.xml"),
+      this.destinationPath(this.pathDomain() + "/" + "pom.xml"),
+      {
+        mavenParentArtifactId: this.answers.name + "-multi-module",
+        mavenParentGroupId: this.answers.packageDomain,
+        mavenArtifactId: this.answers.name.toLowerCase() + "-be-domain",
+        mavenName: this.answers.name.split("-").join(" ").toLowerCase() + " be domain"
+      }
+    );
+    this.fs.copyTpl(
       this.templatePath("gitkeep"),
-      this.destinationPath(this.pathDomain() + "/src/test/java/" + this.pathPackageDomain() + "/" + ".gitkeep"),
+      this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/model/" + ".gitkeep"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("gitkeep"),
+      this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/repository/" + ".gitkeep"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("gitkeep"),
+      this.destinationPath(this.pathDomain() + "/src/main/java/" + this.pathPackageDomain() + "/service/" + ".gitkeep"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("gitkeep"),
+      this.destinationPath(this.pathDomain() + "/src/test/java/" + this.pathPackageDomain() + "/model/" + ".gitkeep"),
+      {}
+    );
+    this.fs.copyTpl(
+      this.templatePath("gitkeep"),
+      this.destinationPath(this.pathDomain() + "/src/test/java/" + this.pathPackageDomain() + "/service/" + ".gitkeep"),
       {}
     );
   }
