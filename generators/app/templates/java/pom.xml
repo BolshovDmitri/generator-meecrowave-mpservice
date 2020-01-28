@@ -300,7 +300,6 @@
         <groupId>javax.validation</groupId>
         <artifactId>validation-api</artifactId>
         <version>${version.javax.validation-api}</version>
-        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
