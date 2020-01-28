@@ -5,7 +5,6 @@
   "main": "index.js",
   "author": "Demis Gallisto",
   "license": "MIT",
-  "private": true,
   "files": [
     "generators"
   ],
