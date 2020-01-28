@@ -89,30 +89,21 @@
     <version.plugin.enforcer>3.0.0-M2</version.plugin.enforcer>
     <version.plugin.failsafe>2.22.2</version.plugin.failsafe>
     <version.plugin.install>2.5.2</version.plugin.install>
-    <version.plugin.jar>3.1.2</version.plugin.jar>
+    <version.plugin.jar>3.2.0</version.plugin.jar>
     <version.plugin.jdeps>3.1.2</version.plugin.jdeps>
     <version.plugin.plexus>2.6.0</version.plugin.plexus>
     <version.plugin.release>2.5.3</version.plugin.release>
     <version.plugin.resources>3.1.0</version.plugin.resources>
-    <version.plugin.site>3.7.1</version.plugin.site>
-    <version.plugin.source>3.1.0</version.plugin.source>
+    <version.plugin.site>3.8.2</version.plugin.site>
+    <version.plugin.source>3.2.1</version.plugin.source>
     <version.plugin.surefire>2.22.2</version.plugin.surefire>
     <version.plugin.versions>2.7</version.plugin.versions>
     <version.plugin.war>3.2.3</version.plugin.war>
 
-    <version.plugin.jib>1.6.1</version.plugin.jib>
+    <version.plugin.jib>1.8.0</version.plugin.jib>
 
     <testServerHttpPort>9080</testServerHttpPort>
     <testServerHttpsPort>9443</testServerHttpsPort>
-
-    <version.meecrowave>1.2.9</version.meecrowave>
-
-    <version.javax.activation-api>1.2.0</version.javax.activation-api>
-    <version.javax.activation>1.1.1</version.javax.activation>
-    <version.javax.jaxb-api>2.3.1</version.javax.jaxb-api>
-    <version.javax.jaxb>2.3.2</version.javax.jaxb>
-
-    <version.swagger-ui>3.24.0</version.swagger-ui>
 
   </properties>
 
