@@ -151,7 +151,7 @@
         <groupId>org.apache.meecrowave</groupId>
         <artifactId>meecrowave-maven-plugin</artifactId>
         <configuration>
-          <watcherBouncing>10</watcherBouncing>
+          <watcherBouncing>1</watcherBouncing>
           <tomcatScanning>true</tomcatScanning>
           <httpPort>9998</httpPort>
           <httpsPort>9999</httpsPort>
