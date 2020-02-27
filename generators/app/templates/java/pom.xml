@@ -705,13 +705,6 @@
               <org.slf4j.simpleLogger.showLogName>false</org.slf4j.simpleLogger.showLogName>
             </systemPropertyVariables>
             <forkedProcessExitTimeoutInSeconds>500</forkedProcessExitTimeoutInSeconds>
-            <includes>
-              <include>**/*IT.java</include>
-            </includes>
-            <excludes>
-              <exclude>**/*$*</exclude>
-              <exclude>**/*Test.java</exclude>
-            </excludes>
           </configuration>
         </plugin>
 
