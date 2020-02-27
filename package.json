@@ -16,7 +16,7 @@
     "microprofile"
   ],
   "dependencies": {
-    "yeoman-generator": "^4.0.0"
+    "yeoman-generator": "^4.6.0"
   },
   "repository": {
     "type": "git",
