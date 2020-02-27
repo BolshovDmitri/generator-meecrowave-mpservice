@@ -1,6 +1,6 @@
 {
   "name": "generator-meecrowave-mpservice",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "meecrowave microprofile.io microservice yeoman generator",
   "main": "index.js",
   "author": "Demis Gallisto",
